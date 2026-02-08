@@ -111,7 +111,7 @@ button {
     So even though you are already mine, today I still want to ask with all the love in me…
   </p>
 
-  <h2>Will you be mine forever? 🥺💖</h2>
+  <h2>Will you be mine forever? 🥹💖</h2>
 
   <div class="buttons">
     <button id="yes" onclick="accept()">Yes 😘</button>
@@ -158,28 +158,33 @@ window.onload = () => {
 };
 
 const noBtn = document.getElementById('no');
-// Make the NO button impossible to click and run across entire screen
+// Enable movement again
 noBtn.style.position = 'fixed';
 noBtn.style.zIndex = '9999';
-noBtn.style.pointerEvents = 'none';
+noBtn.style.pointerEvents = 'auto';
 
-noBtn.addEventListener('mouseover', function() {
-  // create trail heart at current position
+function moveNoButton(){
+  const x = Math.random() * (window.innerWidth - 120);
+  const y = Math.random() * (window.innerHeight - 60);
+
+  // trail heart
   const trail = document.createElement('div');
   trail.className = 'heart';
-  trail.style.left = noBtn.style.left;
-  trail.style.top = noBtn.style.top;
+  trail.style.left = noBtn.style.left || x + 'px';
+  trail.style.top = noBtn.style.top || y + 'px';
   trail.style.position = 'fixed';
   trail.style.fontSize = '14px';
   trail.innerText = '💖';
   document.body.appendChild(trail);
   setTimeout(()=>trail.remove(),2000);
 
-  const x = Math.random() * (window.innerWidth - 120);
-  const y = Math.random() * (window.innerHeight - 60);
   noBtn.style.left = x + 'px';
   noBtn.style.top = y + 'px';
-});
+}
+
+// move on hover OR touch
+noBtn.addEventListener('mouseover', moveNoButton);
+noBtn.addEventListener('touchstart', moveNoButton);
 
 function accept() {
   document.getElementById('firstPage').style.display = 'none';
@@ -218,9 +223,17 @@ function startCountdown(){
   const box = document.getElementById('countdown');
   setInterval(()=>{
     const now = new Date();
-    const diff = now - start;
+    let diff = now - start;
+
     const days = Math.floor(diff/(1000*60*60*24));
-    box.innerText = `Together since: ${days} days ❤️`;
+    diff -= days*(1000*60*60*24);
+
+    const hours = Math.floor(diff/(1000*60*60));
+    diff -= hours*(1000*60*60);
+
+    const minutes = Math.floor(diff/(1000*60));
+
+    box.innerText = `Together since: ${days} days, ${hours} hours, ${minutes} minutes ❤️`;
   },1000);
 }
 </script>
