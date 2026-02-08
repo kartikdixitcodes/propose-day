@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Happy Propose Day ❤️</title>
+<style>
+body {
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+}
+
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  max-width: 420px;
+  position: relative;
+  z-index: 2;
+}
+
+.slideshow { position: relative; height: 190px; }
+
+.photo {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin: 10px auto;
+  border: 3px solid #e91e63;
+}
+
+h1 { color: #e91e63; }
+p { font-size: 18px; }
+
+.buttons { margin-top: 20px; position: relative; }
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#yes { background-color: #e91e63; color: white; margin-right: 10px; }
+#no { background-color: #ccc; position: absolute; }
+
+#message {
+  margin-top: 20px;
+  font-size: 20px;
+  color: #e91e63;
+  display: none;
+}
+
+/* Falling hearts */
+.heart {
+  position: fixed;
+  top: -10px;
+  font-size: 20px;
+  animation: fall linear infinite;
+  z-index: 1;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh);
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1>Happy Propose Day, My Love ❤️</h1>
+
+  <!-- Photo Slideshow -->
+  <div class=\"slideshow\">
+    <img class=\"photo slides\" src=\"photo1.jpg\" alt=\"Us\" />
+    <img class=\"photo slides\" src=\"photo2.jpg\" alt=\"Us\" />
+    <img class=\"photo slides\" src=\"photo3.jpg\" alt=\"Us\" />
+  </div>
+
+  <p>
+    Kavya, every moment with you feels like a beautiful dream. 
+    You are my happiness, my peace, my forever person. 
+    I may already be yours, but today I still want to ask...
+  </p>
+
+  <h2>Will you be mine forever? 🥺💖</h2>
+
+  <div class="buttons">
+    <button id="yes" onclick="accept()">Yes 😘</button>
+    <button id="no">No 😜</button>
+  </div>
+
+  <div id="message">
+    Yayyyy! I knew it! I love you the most in this universe! 💞💫
+  </div>
+</div>
+
+<audio id="song" loop>
+  <source src="make_you_mine_public.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// Auto play music after interaction
+window.onload = () => {
+  document.body.addEventListener('click', () => {
+    document.getElementById('song').play();
+  }, { once: true });
+};
+
+// Run away button
+const noBtn = document.getElementById('no');
+noBtn.addEventListener('mouseover', function() {
+  const x = Math.random() * 250;
+  const y = Math.random() * 200;
+  noBtn.style.left = x + 'px';
+  noBtn.style.top = y + 'px';
+});
+
+function accept() {
+  document.querySelector('.card').style.display = 'none';
+  document.getElementById('secondPage').style.display = 'block';
+}
+
+// Falling hearts generator
+function createHeart() {
+  const heart = document.createElement('div');
+  heart.className = 'heart';
+  heart.innerText = ['❤️','💖','💘','💕'][Math.floor(Math.random()*4)];
+  heart.style.left = Math.random() * 100 + 'vw';
+  heart.style.animationDuration = (3 + Math.random() * 4) + 's';
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 7000);
+}
+setInterval(createHeart, 300);
+
+// Slideshow logic
+let index = 0;
+const slides = document.getElementsByClassName('slides');
+function showSlides() {
+  for (let i = 0; i < slides.length; i++) {
+    slides[i].style.display = 'none';
+  }
+  index++;
+  if (index > slides.length) index = 1;
+  slides[index-1].style.display = 'block';
+  setTimeout(showSlides, 2000);
+}
+showSlides();
+</script>
+
+<!-- SECOND PAGE -->
+<div id="secondPage" class="card" style="display:none;">
+  <h1>Reasons I Love You, Kavya ❤️</h1>
+
+  <p>1. I love the way you understand me even when I don’t have the right words. With you I never have to pretend to be someone else; you make me feel safe just being Kartik.</p>
+
+  <p>2. I love your smile – the kind that fixes my worst days without you even trying. One message from you is enough to calm every storm in my head.</p>
+
+  <p>3. I love how hardworking and pure your heart is. You care about people so deeply and it makes me want to become a better man every single day.</p>
+
+  <p>4. I love all our little moments – late night calls, silly fights, random jokes, and the way we can talk for hours and still not get bored.</p>
+
+  <p>5. Most of all, I love you because you are YOU. Not perfect, not fictional, just real and beautiful, and I want to choose you in every lifetime.</p>
+
+  <h2>You’ll always be my best decision 💍</h2>
+</div>
+
+</body>
+</html>
