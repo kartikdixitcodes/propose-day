@@ -11,88 +11,104 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
   overflow: hidden;
 }
 
 .card {
   background: white;
-  padding: 25px;
-  border-radius: 15px;
+  padding: 40px;
+  border-radius: 20px;
   text-align: center;
-  box-shadow: 0 0 20px rgba(0,0,0,0.2);
-  max-width: 420px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.25);
+  max-width: 560px;
+  font-size: 19px;
   position: relative;
   z-index: 2;
 }
 
-.slideshow { position: relative; height: 190px; }
-
-.photo {
-  width: 180px;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 12px;
-  margin: 10px auto;
-  border: 3px solid #e91e63;
-}
-
-h1 { color: #e91e63; }
-p { font-size: 18px; }
+h1 { color: #e91e63; font-size: 28px; }
+h2 { color: #e91e63; }
 
 .buttons { margin-top: 20px; position: relative; }
 
 button {
-  padding: 10px 20px;
-  font-size: 16px;
+  padding: 12px 24px;
+  font-size: 17px;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
 }
 
 #yes { background-color: #e91e63; color: white; margin-right: 10px; }
 #no { background-color: #ccc; position: absolute; }
 
-#message {
-  margin-top: 20px;
-  font-size: 20px;
-  color: #e91e63;
-  display: none;
-}
-
-/* Falling hearts */
-.heart {
+/* Hearts & glitter */
+.heart, .glitter {
   position: fixed;
   top: -10px;
-  font-size: 20px;
-  animation: fall linear infinite;
   z-index: 1;
 }
 
-@keyframes fall {
-  to {
-    transform: translateY(110vh);
-  }
+.heart { font-size: 20px; animation: fall linear infinite; }
+.glitter { width: 6px; height: 6px; background: white; border-radius: 50%; animation: fall linear infinite; opacity: .8; }
+
+@keyframes fall { to { transform: translateY(110vh); } }
+
+/* Photo layout on second page */
+.photo-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 15px 0;
 }
+
+.photo {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 3px solid #e91e63;
+}
+
+.photo.center {
+  width: 190px;
+  height: 190px;
+}
+
+.paragraph {
+  margin: 16px 0;
+  line-height: 1.5;
+}
+
+#countdown { font-weight: bold; margin-top: 10px; }
 </style>
 </head>
 <body>
 
-<div class="card">
-  <h1>Happy Propose Day, My Love ❤️</h1>
+<div class="card" id="firstPage">
+  <h1>Happy Propose Day, My Kavya ❤️</h1>
 
-  <!-- Photo Slideshow -->
-  <div class=\"slideshow\">
-    <img class=\"photo slides\" src=\"photo1.jpg\" alt=\"Us\" />
-    <img class=\"photo slides\" src=\"photo2.jpg\" alt=\"Us\" />
-    <img class=\"photo slides\" src=\"photo3.jpg\" alt=\"Us\" />
-  </div>
+  <p class="paragraph">
+    My love, every heartbeat of mine somehow whispers your name. You are not just a part of my life, you are the reason it feels alive. Even on ordinary days you make the world look softer and kinder.
+  </p>
 
-  <p>
-    Kavya, every moment with you feels like a beautiful dream. 
-    You are my happiness, my peace, my forever person. 
-    I may already be yours, but today I still want to ask...
+  <p class="paragraph">
+    Loving you feels as natural as breathing. I don’t need to try, I just do. In your voice I find comfort, in your smile I find home, and in your presence I find the safest place on earth.
+  </p>
+
+  <p class="paragraph">
+    I may not be perfect, but the love I have for you is. I want to hold your worries when you’re tired, celebrate your wins like they’re mine, and walk beside you in every lifetime.
+  </p>
+
+  <p class="paragraph">
+    Distance, bad days, silly fights – nothing changes the way my heart chooses you again and again. You are my calm, my chaos, my favorite person.
+  </p>
+
+  <p class="paragraph">
+    So even though you are already mine, today I still want to ask with all the love in me…
   </p>
 
   <h2>Will you be mine forever? 🥺💖</h2>
@@ -102,9 +118,31 @@ button {
     <button id="no">No 😜</button>
   </div>
 
-  <div id="message">
-    Yayyyy! I knew it! I love you the most in this universe! 💞💫
+  <div id="countdown"></div>
+</div>
+
+<!-- SECOND PAGE WITH PHOTOS -->
+<div id="secondPage" class="card" style="display:none;">
+  <h1>You & Me ❤️</h1>
+
+  <div class="photo-row">
+    <img class="photo" src="photo1.jpg" />
+    <img class="photo center" src="photo3.jpg" />
+    <img class="photo" src="photo2.jpg" />
   </div>
+
+  <p class="paragraph">Every photo of us holds a whole universe of memories. The way you look at me, the way you hold my hand, it all reminds me how lucky I am.</p>
+
+  <p class="paragraph">Since 22 May 2025 we’ve been writing a story I never want to end. You turned random days into beautiful moments.</p>
+
+  <button onclick="showFinal()">Next 💞</button>
+</div>
+
+<!-- FINAL PAGE -->
+<div id="finalPage" class="card" style="display:none;">
+  <h1>I Love You So Much My Baby ❤️</h1>
+  <p class="paragraph">Forever yours,</p>
+  <h2>Kartik Dixit</h2>
 </div>
 
 <audio id="song" loop>
@@ -112,70 +150,74 @@ button {
 </audio>
 
 <script>
-// Auto play music after interaction
 window.onload = () => {
   document.body.addEventListener('click', () => {
     document.getElementById('song').play();
   }, { once: true });
+  startCountdown();
 };
 
-// Run away button
 const noBtn = document.getElementById('no');
 noBtn.addEventListener('mouseover', function() {
-  const x = Math.random() * 250;
-  const y = Math.random() * 200;
+  const x = Math.random() * 260;
+  const y = Math.random() * 220;
   noBtn.style.left = x + 'px';
   noBtn.style.top = y + 'px';
 });
 
 function accept() {
-  document.querySelector('.card').style.display = 'none';
+  document.getElementById('firstPage').style.display = 'none';
   document.getElementById('secondPage').style.display = 'block';
 }
 
-// Falling hearts generator
+function showFinal() {
+  document.getElementById('secondPage').style.display = 'none';
+  document.getElementById('finalPage').style.display = 'block';
+}
+
 function createHeart() {
-  const heart = document.createElement('div');
-  heart.className = 'heart';
-  heart.innerText = ['❤️','💖','💘','💕'][Math.floor(Math.random()*4)];
-  heart.style.left = Math.random() * 100 + 'vw';
-  heart.style.animationDuration = (3 + Math.random() * 4) + 's';
-  document.body.appendChild(heart);
-  setTimeout(() => heart.remove(), 7000);
+  const h = document.createElement('div');
+  h.className = 'heart';
+  h.innerText = ['❤️','💖','💘','💕'][Math.floor(Math.random()*4)];
+  h.style.left = Math.random()*100 + 'vw';
+  h.style.animationDuration = (3+Math.random()*4)+'s';
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),7000);
 }
+
+function createGlitter() {
+  const g = document.createElement('div');
+  g.className = 'glitter';
+  g.style.left = Math.random()*100 + 'vw';
+  g.style.animationDuration = (2+Math.random()*3)+'s';
+  document.body.appendChild(g);
+  setTimeout(()=>g.remove(),6000);
+}
+
 setInterval(createHeart, 300);
+setInterval(createGlitter, 200);
 
-// Slideshow logic
-let index = 0;
-const slides = document.getElementsByClassName('slides');
-function showSlides() {
-  for (let i = 0; i < slides.length; i++) {
-    slides[i].style.display = 'none';
-  }
-  index++;
-  if (index > slides.length) index = 1;
-  slides[index-1].style.display = 'block';
-  setTimeout(showSlides, 2000);
+function startCountdown(){
+  const start = new Date('2025-05-22T00:00:00');
+  const box = document.getElementById('countdown');
+
+  setInterval(()=>{
+    const now = new Date();
+    let diff = now - start;
+
+    const days = Math.floor(diff/(1000*60*60*24));
+    diff -= days*(1000*60*60*24);
+
+    const hours = Math.floor(diff/(1000*60*60));
+    diff -= hours*(1000*60*60);
+
+    const minutes = Math.floor(diff/(1000*60));
+
+    box.innerText =
+      `Together since: ${days} days, ${hours} hours, ${minutes} minutes ❤️`;
+  },1000);
 }
-showSlides();
 </script>
-
-<!-- SECOND PAGE -->
-<div id="secondPage" class="card" style="display:none;">
-  <h1>Reasons I Love You, Kavya ❤️</h1>
-
-  <p>1. I love the way you understand me even when I don’t have the right words. With you I never have to pretend to be someone else; you make me feel safe just being Kartik.</p>
-
-  <p>2. I love your smile – the kind that fixes my worst days without you even trying. One message from you is enough to calm every storm in my head.</p>
-
-  <p>3. I love how hardworking and pure your heart is. You care about people so deeply and it makes me want to become a better man every single day.</p>
-
-  <p>4. I love all our little moments – late night calls, silly fights, random jokes, and the way we can talk for hours and still not get bored.</p>
-
-  <p>5. Most of all, I love you because you are YOU. Not perfect, not fictional, just real and beautiful, and I want to choose you in every lifetime.</p>
-
-  <h2>You’ll always be my best decision 💍</h2>
-</div>
 
 </body>
 </html>
