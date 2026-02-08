@@ -31,12 +31,7 @@ body {
 h1 { color: #e91e63; font-size: 28px; }
 h2 { color: #e91e63; }
 
-.buttons {
-  margin-top: 20px;
-  position: relative;
-  height: 60px;
-}
-
+.buttons { margin-top: 20px; position: relative; }
 
 button {
   padding: 12px 24px;
@@ -163,9 +158,25 @@ window.onload = () => {
 };
 
 const noBtn = document.getElementById('no');
+// Make the NO button impossible to click and run across entire screen
+noBtn.style.position = 'fixed';
+noBtn.style.zIndex = '9999';
+noBtn.style.pointerEvents = 'none';
+
 noBtn.addEventListener('mouseover', function() {
-  const x = Math.random() * 120;
-const y = Math.random() * 40;
+  // create trail heart at current position
+  const trail = document.createElement('div');
+  trail.className = 'heart';
+  trail.style.left = noBtn.style.left;
+  trail.style.top = noBtn.style.top;
+  trail.style.position = 'fixed';
+  trail.style.fontSize = '14px';
+  trail.innerText = '💖';
+  document.body.appendChild(trail);
+  setTimeout(()=>trail.remove(),2000);
+
+  const x = Math.random() * (window.innerWidth - 120);
+  const y = Math.random() * (window.innerHeight - 60);
   noBtn.style.left = x + 'px';
   noBtn.style.top = y + 'px';
 });
@@ -205,25 +216,14 @@ setInterval(createGlitter, 200);
 function startCountdown(){
   const start = new Date('2025-05-22T00:00:00');
   const box = document.getElementById('countdown');
-
   setInterval(()=>{
     const now = new Date();
-    let diff = now - start;
-
+    const diff = now - start;
     const days = Math.floor(diff/(1000*60*60*24));
-    diff -= days*(1000*60*60*24);
-
-    const hours = Math.floor(diff/(1000*60*60));
-    diff -= hours*(1000*60*60);
-
-    const minutes = Math.floor(diff/(1000*60));
-
-    box.innerText =
-      `Together since: ${days} days, ${hours} hours, ${minutes} minutes ❤️`;
+    box.innerText = `Together since: ${days} days ❤️`;
   },1000);
 }
 </script>
 
 </body>
 </html>
-
